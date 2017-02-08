@@ -14,18 +14,6 @@
 
 declare var WebKitMutationObserver: any;
 
-var MutationObserverCtor;
-if (typeof WebKitMutationObserver !== 'undefined')
-  MutationObserverCtor = WebKitMutationObserver;
-else
-  MutationObserverCtor = MutationObserver;
-
-if (MutationObserverCtor === undefined) {
-  console.error('DOM Mutation Observers are required.');
-  console.error('https://developer.mozilla.org/en-US/docs/DOM/MutationObserver');
-  throw Error('DOM Mutation Observers are required');
-}
-
 interface StringMap<T> {
   [key: string]: T;
 }
@@ -1696,6 +1684,18 @@ export default class MutationSummary {
       this.queryValidators = this.options.queries.map((query) => {
         return MutationSummary.createQueryValidator(this.root, query);
       });
+    }
+
+    var MutationObserverCtor;
+    if (typeof WebKitMutationObserver !== 'undefined')
+      MutationObserverCtor = WebKitMutationObserver;
+    else
+      MutationObserverCtor = MutationObserver;
+
+    if (MutationObserverCtor === undefined) {
+      console.error('DOM Mutation Observers are required.');
+      console.error('https://developer.mozilla.org/en-US/docs/DOM/MutationObserver');
+      throw Error('DOM Mutation Observers are required');
     }
 
     this.observer = new MutationObserverCtor((mutations:MutationRecord[]) => {

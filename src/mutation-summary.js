@@ -17,16 +17,6 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var MutationObserverCtor;
-if (typeof WebKitMutationObserver !== 'undefined')
-    MutationObserverCtor = WebKitMutationObserver;
-else
-    MutationObserverCtor = MutationObserver;
-if (MutationObserverCtor === undefined) {
-    console.error('DOM Mutation Observers are required.');
-    console.error('https://developer.mozilla.org/en-US/docs/DOM/MutationObserver');
-    throw Error('DOM Mutation Observers are required');
-}
 var NodeMap = (function () {
     function NodeMap() {
         this.nodes = [];
@@ -1194,6 +1184,16 @@ var MutationSummary = (function () {
             this.queryValidators = this.options.queries.map(function (query) {
                 return MutationSummary.createQueryValidator(_this.root, query);
             });
+        }
+        var MutationObserverCtor;
+        if (typeof WebKitMutationObserver !== 'undefined')
+            MutationObserverCtor = WebKitMutationObserver;
+        else
+            MutationObserverCtor = MutationObserver;
+        if (MutationObserverCtor === undefined) {
+            console.error('DOM Mutation Observers are required.');
+            console.error('https://developer.mozilla.org/en-US/docs/DOM/MutationObserver');
+            throw Error('DOM Mutation Observers are required');
         }
         this.observer = new MutationObserverCtor(function (mutations) {
             _this.observerCallback(mutations);
